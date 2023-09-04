@@ -1,14 +1,12 @@
 package uz.pdp.online.appwarehouse.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import uz.pdp.online.appwarehouse.entity.template.AbstractEntity;
+import uz.pdp.online.appwarehouse.entity.template.AbsEntity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-public class Currency extends AbstractEntity {
+public class Currency extends AbsEntity {
 
 }
