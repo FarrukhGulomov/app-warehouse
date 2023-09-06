@@ -28,6 +28,7 @@ public class CategoryService {
             category.setParentCategory(parentCategory);
             categoryRepository.save(category);
         }
+
         categoryRepository.save(category);
         return new Result("Category is added!",true);
 
