@@ -10,6 +10,6 @@ public abstract class AbsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
-    private boolean active;
+    private Boolean active=true;
 
 }

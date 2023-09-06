@@ -5,22 +5,24 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import uz.pdp.online.appwarehouse.entity.template.AbsEntity;
 
 import java.util.UUID;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 public class Product extends AbsEntity {
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Category category;
     @OneToOne
     private Attachment photo;
     private String code;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Measurement measurement;
 
 }
