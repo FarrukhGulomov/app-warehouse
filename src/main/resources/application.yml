@@ -2,9 +2,11 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/warehouse_db
     username: postgres
-    password: admin
+    password: root123
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
 debug: true
+server:
+  port: 8082

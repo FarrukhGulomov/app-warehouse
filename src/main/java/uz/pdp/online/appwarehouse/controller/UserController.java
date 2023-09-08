@@ -1,6 +1,7 @@
 package uz.pdp.online.appwarehouse.controller;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.online.appwarehouse.payload.Result;
@@ -18,7 +19,7 @@ UserService userService;
     }
 
     @PostMapping
-    public Result addUser(UserDto userDto){
+    public Result addUser(@RequestBody UserDto userDto){
        return userService.addUser(userDto);
     }
 

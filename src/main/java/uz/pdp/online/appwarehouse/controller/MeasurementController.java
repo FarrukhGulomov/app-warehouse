@@ -20,8 +20,7 @@ public class MeasurementController {
 
     @PostMapping
     public Result addMeasurementController(@RequestBody Measurement measurement){
-        Result result = measurementService.addMeasurementService(measurement);
-        return result;
+        return measurementService.addMeasurementService(measurement);
     }
 
 }

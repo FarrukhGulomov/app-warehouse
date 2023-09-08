@@ -20,8 +20,7 @@ CategoryService categoryService;
 
     @PostMapping
     public Result addCategoryService(@RequestBody CategoryDto categoryDto){
-        Result result = categoryService.addCategory(categoryDto);
-        return result;
+        return categoryService.addCategory(categoryDto);
 
     }
 }
