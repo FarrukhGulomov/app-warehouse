@@ -1,11 +1,11 @@
 package uz.pdp.online.appwarehouse.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import uz.pdp.online.appwarehouse.entity.template.AbsEntity;
-@EqualsAndHashCode(callSuper = true)
-@Data
+@Getter
+@Setter
+@ToString
 @Entity
 public class Measurement extends AbsEntity {
 

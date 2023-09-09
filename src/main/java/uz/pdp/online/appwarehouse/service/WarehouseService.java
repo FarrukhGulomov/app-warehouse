@@ -16,13 +16,10 @@ public class WarehouseService {
     }
 
     public Result addWarehouseService(Warehouse warehouse){
-        Warehouse warehouse1=new Warehouse();
         boolean existsByName = warehouseRepository.existsByName(warehouse.getName());
-        System.out.println("boolean: "+existsByName);
         if(existsByName) return new Result("This warehouse is already exist!",false);
-        System.out.println("obyekt: "+warehouse.getName());
-        warehouse1.setName(warehouse.getName());
-        warehouseRepository.save(warehouse1);
+        System.out.println(warehouse);
+        warehouseRepository.save(warehouse);
         return new Result("Warehouse is added!",true);
     }
 }

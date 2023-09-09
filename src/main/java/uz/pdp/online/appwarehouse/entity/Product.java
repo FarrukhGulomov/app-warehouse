@@ -3,16 +3,14 @@ package uz.pdp.online.appwarehouse.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import uz.pdp.online.appwarehouse.entity.template.AbsEntity;
 
-import java.util.UUID;
 
-@Data
-@EqualsAndHashCode(callSuper = true)
+
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity

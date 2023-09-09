@@ -1,12 +1,16 @@
 package uz.pdp.online.appwarehouse.entity;
 
-import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.hibernate.proxy.HibernateProxy;
 import uz.pdp.online.appwarehouse.entity.template.AbsEntity;
-@EqualsAndHashCode(callSuper = true)
+
+import java.util.Objects;
 @Data
+@EqualsAndHashCode(callSuper = true)
 @Entity
 public class Currency extends AbsEntity {
+
 
 }

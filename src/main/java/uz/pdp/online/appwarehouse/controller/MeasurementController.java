@@ -17,7 +17,6 @@ public class MeasurementController {
     public MeasurementController(MeasurementService measurementService) {
         this.measurementService = measurementService;
     }
-
     @PostMapping
     public Result addMeasurementController(@RequestBody Measurement measurement){
         return measurementService.addMeasurementService(measurement);

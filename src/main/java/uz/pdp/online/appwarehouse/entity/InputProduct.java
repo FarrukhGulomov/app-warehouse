@@ -1,14 +1,14 @@
 package uz.pdp.online.appwarehouse.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -19,10 +19,14 @@ public class InputProduct {
     @ManyToOne
     private Product product;
     @Column(nullable = false)
-    private Double amount;
+    private Double amount=0.0;
     @Column(nullable = false)
-    private Double price;
+    private Double price=0.0;
     private Date expireDate;
     @ManyToOne
     private Input input;
+
+    public InputProduct(Double amount) {
+        this.amount = amount;
+    }
 }

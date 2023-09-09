@@ -10,7 +10,7 @@ import uz.pdp.online.appwarehouse.repository.CurrencyRepository;
 public class CurrencyService {
     CurrencyRepository currencyRepository;
 
-    @Autowired
+
     public CurrencyService(CurrencyRepository currencyRepository) {
         this.currencyRepository = currencyRepository;
     }
