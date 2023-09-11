@@ -6,4 +6,6 @@ import uz.pdp.online.appwarehouse.entity.Currency;
 
 public interface CurrencyRepository extends JpaRepository<Currency,Integer> {
    boolean existsByName(String name);
+
+
 }

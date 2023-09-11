@@ -60,20 +60,9 @@ public class InputProductService {
 
     public InputProduct getInputProductById(Integer id){
         Optional<InputProduct> optionalInputProduct = inputProductRepository.findById(id);
-        if(optionalInputProduct.isPresent()) return optionalInputProduct.get();
-        return new InputProduct();
-    }
-
-    public void outputInputAmount(Double outputAmount, Integer productId){
-        Double inputProductTotalAmount = inputProductRepository.getInputProductTotalAmount(productId);
-        if (inputProductTotalAmount==null) {
-            new Result("This id is not found!", false);
-            return;
-        }
-        inputProductTotalAmount-=outputAmount;
-        InputProduct inputProduct=new InputProduct(inputProductTotalAmount);
-        inputProductRepository.save(inputProduct);
-        new Result("Succesfully done!", true);
+        return optionalInputProduct.orElseGet(InputProduct::new);
 
     }
+
+
 }

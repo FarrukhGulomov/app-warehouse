@@ -1,8 +1,7 @@
 package uz.pdp.online.appwarehouse.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import uz.pdp.online.appwarehouse.payload.Result;
 import uz.pdp.online.appwarehouse.service.AttachmentService;
@@ -17,8 +16,23 @@ public class AttachmentController {
     }
 
     @PostMapping
-    public Result upload(MultipartHttpServletRequest request){
+    public Result upload(MultipartHttpServletRequest request) {
         return attachmentService.addPhoto(request);
+    }
+
+    @GetMapping("/byAttachmentId/{id}")
+    public void getPhoto(@PathVariable Integer id, HttpServletResponse response) {
+        attachmentService.getPhoto(id, response);
+    }
+
+    @PutMapping("/editPhotoById/{id}")
+    public Result editPhoto(MultipartHttpServletRequest request, @PathVariable Integer id) {
+        return attachmentService.editPhoto(request, id);
+    }
+
+    @DeleteMapping("/deletePhoto/{id}")
+    public Result deletePhoto(@PathVariable Integer id){
+        return attachmentService.deletePhoto(id);
     }
 
 }

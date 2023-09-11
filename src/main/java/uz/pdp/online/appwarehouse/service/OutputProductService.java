@@ -19,18 +19,19 @@ public class OutputProductService {
     OutputProductRepository outputProductRepository;
     OutputRepository outputRepository;
     ProductRepository productRepository;
-    InputProductService inputProductService;
+    InputProductRepository inputProductRepository;
 
-    public OutputProductService(OutputProductRepository outputProductRepository, OutputRepository outputRepository, ProductRepository productRepository, InputProductService inputProductService) {
+    public OutputProductService(OutputProductRepository outputProductRepository, OutputRepository outputRepository, ProductRepository productRepository, InputProductRepository inputProductRepository) {
         this.outputProductRepository = outputProductRepository;
         this.outputRepository = outputRepository;
         this.productRepository = productRepository;
-        this.inputProductService = inputProductService;
+        this.inputProductRepository = inputProductRepository;
     }
 
     public Result output(OutputProductDto outputProductDto){
+        Double inputProductTotalAmount = inputProductRepository.getInputProductTotalAmount(outputProductDto.getProductId());
 
-
+        if(outputProductDto.getAmount()> inputProductTotalAmount) return new Result("Output amoun is greater than input",false);
 
         Optional<Output> optionalOutput = outputRepository.findById(outputProductDto.getOutputId());
         if(optionalOutput.isEmpty()) return new Result("Output is not found!",false);
@@ -46,7 +47,7 @@ public class OutputProductService {
         Timestamp date=new Timestamp(System.currentTimeMillis());
         outputProduct.setExpireDate(date);
         outputProductRepository.save(outputProduct);
-        inputProductService.outputInputAmount(outputProductDto.getAmount(), outputProductDto.getProductId());
+
         return new Result("Successfully added!",true);
     }
 }

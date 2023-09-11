@@ -1,6 +1,7 @@
 package uz.pdp.online.appwarehouse.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import uz.pdp.online.appwarehouse.entity.InputProduct;
 
@@ -12,8 +13,13 @@ public interface InputProductRepository extends JpaRepository<InputProduct,Integ
             "WHERE p.id = :productId GROUP BY o_p.amount",nativeQuery = true)
     Boolean isAmountPositive(Integer productId);
 
-    @Query(value = "SELECT SUM (i_p.amount) FROM input_product i_p JOIN product p ON i_p.product_id = p.id WHERE p.id = :productId",nativeQuery = true)
+    @Query(value = "SELECT COALESCE(SUM(i_p.amount), 0) FROM input_product i_p\n" +
+            "WHERE i_p.product_id = :productId",nativeQuery = true)
     Double getInputProductTotalAmount(Integer productId);
+
+@Modifying
+@Query(value = "UPDATE input_product SET amount = amount - :outputAmount WHERE input_product.id =:productId",nativeQuery = true)
+void getInputAmountAfterOutput(Double outputAmount,Integer productId);
 
 
 }
