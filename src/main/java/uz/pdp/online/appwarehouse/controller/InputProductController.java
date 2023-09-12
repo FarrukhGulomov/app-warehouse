@@ -19,20 +19,32 @@ public class InputProductController {
     }
 
     @PostMapping
-    public Result addInputProduct(@RequestBody InputProductDto dto){
-       return inputProductService.addInputProduct(dto);
+    public Result addInputProduct(@RequestBody InputProductDto dto) {
+        return inputProductService.addInputProduct(dto);
     }
+
     @GetMapping
-    public List<InputProduct> getAllInputProducts(){
-       return inputProductService.getAllInputProducts();
+    public List<InputProduct> getAllInputProducts() {
+        return inputProductService.getAllInputProducts();
     }
+
     @GetMapping("/page")
-    public Page<InputProduct> getInputProductByPage(@RequestParam int page){
+    public Page<InputProduct> getInputProductByPage(@RequestParam int page) {
         return inputProductService.getInputProductByPage(page);
     }
 
     @GetMapping("/byId/{id}")
-    public InputProduct getInputProductById(@PathVariable Integer id){
+    public InputProduct getInputProductById(@PathVariable Integer id) {
         return inputProductService.getInputProductById(id);
+    }
+
+    @PutMapping("/editInputProduct/{id}")
+    public Result editInputProduct(@PathVariable Integer id, @RequestBody InputProductDto dto) {
+        return inputProductService.editInputProduct(id, dto);
+    }
+
+    @DeleteMapping("/deleteInputProduct/{id}")
+    public Result deleteInputProduct(@PathVariable Integer id){
+       return inputProductService.deleteInputProduct(id);
     }
 }

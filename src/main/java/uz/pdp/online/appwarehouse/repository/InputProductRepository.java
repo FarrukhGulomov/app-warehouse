@@ -17,9 +17,7 @@ public interface InputProductRepository extends JpaRepository<InputProduct,Integ
             "WHERE i_p.product_id = :productId",nativeQuery = true)
     Double getInputProductTotalAmount(Integer productId);
 
-@Modifying
-@Query(value = "UPDATE input_product SET amount = amount - :outputAmount WHERE input_product.id =:productId",nativeQuery = true)
-void getInputAmountAfterOutput(Double outputAmount,Integer productId);
+
 
 
 }
