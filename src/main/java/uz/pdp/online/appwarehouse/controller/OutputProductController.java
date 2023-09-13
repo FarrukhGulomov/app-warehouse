@@ -1,9 +1,8 @@
 package uz.pdp.online.appwarehouse.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+import uz.pdp.online.appwarehouse.entity.OutputProduct;
 import uz.pdp.online.appwarehouse.payload.OutputProductDto;
 import uz.pdp.online.appwarehouse.payload.Result;
 import uz.pdp.online.appwarehouse.service.OutputProductService;
@@ -21,5 +20,23 @@ public class OutputProductController {
     @PostMapping
     public Result output(@RequestBody OutputProductDto dto){
         return outputProductService.output(dto);
+    }
+
+    @GetMapping("/byPage")
+    public Page<OutputProduct> getAllOutputByPage(@RequestParam Integer page){
+        return outputProductService.getOutputProductByPage(page);
+    }
+
+    @GetMapping("/byId/{id}")
+    public Result getOutputProduct(@PathVariable Integer id){
+        return outputProductService.getOutputProduct(id);
+    }
+    @PutMapping("/editOutputProduct/{id}")
+    public Result editOutputProduct(@PathVariable Integer id,@RequestBody OutputProductDto dto){
+        return outputProductService.editOutputProduct(id,dto);
+    }
+    @DeleteMapping("/delete/{id}")
+    public Result delete(@PathVariable Integer id){
+        return outputProductService.delete(id);
     }
 }

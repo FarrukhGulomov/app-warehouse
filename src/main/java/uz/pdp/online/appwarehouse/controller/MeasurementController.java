@@ -1,12 +1,11 @@
 package uz.pdp.online.appwarehouse.controller;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.pdp.online.appwarehouse.entity.Measurement;
 import uz.pdp.online.appwarehouse.payload.Result;
 import uz.pdp.online.appwarehouse.service.MeasurementService;
+
+import java.util.List;
 
 
 @RestController
@@ -22,4 +21,20 @@ public class MeasurementController {
         return measurementService.addMeasurementService(measurement);
     }
 
+    @GetMapping
+    public List<Measurement> getAllMeasurement(){
+        return measurementService.getAllMeasurement();
+    }
+    @GetMapping("/getMeasurementById/{id}")
+    public Result getMeasurement(@PathVariable Integer id){
+        return measurementService.getMeasurementById(id);
+    }
+    @PutMapping("/editMeasurement/{id}")
+    public Result edit(@PathVariable Integer id,@RequestBody Measurement measurement){
+        return measurementService.editMeasurement(id,measurement);
+    }
+    @DeleteMapping("/deleteMeasurement/{id}")
+    public Result delete(@PathVariable Integer id){
+        return measurementService.deleteMeasurement(id);
+    }
 }
