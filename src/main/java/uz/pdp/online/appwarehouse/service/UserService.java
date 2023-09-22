@@ -1,6 +1,9 @@
 package uz.pdp.online.appwarehouse.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.pdp.online.appwarehouse.entity.User;
 import uz.pdp.online.appwarehouse.entity.Warehouse;
@@ -36,12 +39,25 @@ public class UserService extends Operation {
         Set<Warehouse> set = new HashSet<>();
         for (Integer id : userDto.getWarehousesId()) {
             Optional<Warehouse> optionalWarehouse = warehouseRepository.findById(id);
-            if(!optionalWarehouse.isPresent()) return new Result("Warehouse is not found!",false);
+            if(optionalWarehouse.isEmpty()) return new Result("Warehouse is not found!",false);
             set.add(optionalWarehouse.get());
         }
         user.setWarehouses(set);
         userRepository.save(user);
         return new Result("User is added!",true);
+    }
+    public Page<User> getUsersByPage(Integer page){
+        int size=10;
+        Pageable pageable= PageRequest.of(page,size);
+        return userRepository.findAll(pageable);
+    }
+    public Result getUser(Integer id){
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()) return new Result("User not found!",false);
+        return new Result("Success",true,optionalUser.get());
+    }
+    public Result edit(Integer id,UserDto dto){
+
     }
 }
 

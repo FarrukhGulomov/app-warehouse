@@ -1,5 +1,8 @@
 package uz.pdp.online.appwarehouse.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.pdp.online.appwarehouse.entity.Attachment;
 import uz.pdp.online.appwarehouse.entity.Category;
@@ -54,7 +57,50 @@ public class ProductService extends Operation {
 
     }
 
+    public Page<Product> getAllProductByPage(Integer page) {
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
+    }
 
+    public Result getProduct(Integer id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        return optionalProduct.map(product ->
+                        new Result("Product is successfully found!", true, product))
+                .orElseGet(() -> new Result("Product is not found by this id!", false));
+
+    }
+
+    public Result editProduct(Integer id, ProductDto dto) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (optionalProduct.isEmpty()) return new Result("Product is not found!", false);
+        Product product = optionalProduct.get();
+
+
+        var optionalCategory = categoryRepository.findById(dto.getCategoryId());
+        if (optionalCategory.isEmpty()) return new Result("Category is not found!", false);
+
+        Optional<Measurement> optionalMeasurement = measurementRepository.findById(dto.getMeasurementId());
+        if (optionalMeasurement.isEmpty()) return new Result("Measurement is not found!", false);
+
+        Optional<Attachment> optionalAttachment = attachmentRepository.findById(dto.getPhotoId());
+        if (optionalAttachment.isEmpty()) return new Result("Photo is not found!", false);
+
+        product.setName(dto.getName());
+        product.setCategory(optionalCategory.get());
+        product.setMeasurement(optionalMeasurement.get());
+        product.setPhoto(optionalAttachment.get());
+        productRepository.save(product);
+        return new Result("Product is successfully edited!", true, product);
+    }
+
+    public Result delete(Integer id) {
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if(optionalProduct.isEmpty()) return new Result("Product is not found!",false);
+        if(productRepository.existsProductInputProduct(id) || productRepository.existsProductInOutputProduct(id)) return new Result("You can't delete this product because of relationship!",false);
+        productRepository.deleteById(id);
+        return new Result("Product is successfully deleted!",true);
+    }
 
 
 }
