@@ -16,6 +16,7 @@ import uz.pdp.online.appwarehouse.service.helper.Operation;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class UserService extends Operation {
@@ -29,6 +30,8 @@ public class UserService extends Operation {
         this.warehouseRepository = warehouseRepository;
     }
 
+    Set<Warehouse> warehouses = new HashSet<Warehouse>();
+
     public Result addUser(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
@@ -39,25 +42,57 @@ public class UserService extends Operation {
         Set<Warehouse> set = new HashSet<>();
         for (Integer id : userDto.getWarehousesId()) {
             Optional<Warehouse> optionalWarehouse = warehouseRepository.findById(id);
-            if(optionalWarehouse.isEmpty()) return new Result("Warehouse is not found!",false);
+            if (optionalWarehouse.isEmpty()) return new Result("Warehouse is not found!", false);
             set.add(optionalWarehouse.get());
         }
         user.setWarehouses(set);
         userRepository.save(user);
-        return new Result("User is added!",true);
+        return new Result("User is added!", true);
     }
-    public Page<User> getUsersByPage(Integer page){
-        int size=10;
-        Pageable pageable= PageRequest.of(page,size);
+
+    public Page<User> getUsersByPage(Integer page) {
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
         return userRepository.findAll(pageable);
     }
-    public Result getUser(Integer id){
-        Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isEmpty()) return new Result("User not found!",false);
-        return new Result("Success",true,optionalUser.get());
-    }
-    public Result edit(Integer id,UserDto dto){
 
+    public Result getUser(Integer id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser.map(user ->
+                        new Result("Success", true, user))
+                .orElseGet(() -> new Result("User not found!", false));
     }
+
+    public Result edit(Integer id, UserDto dto) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) return new Result("User is not found!", false);
+        User user = optionalUser.get();
+
+
+        for (Integer warehouseId : dto.getWarehousesId()) {
+            Optional<Warehouse> optionalWarehouse = warehouseRepository.findById(warehouseId);
+            if (optionalWarehouse.isEmpty()) return new Result("Warehouse is not found!", false);
+            Warehouse warehouse = optionalWarehouse.get();
+            warehouses.add(warehouse);
+        }
+        user.setWarehouses(warehouses);
+        user.setPassword(dto.getPassword());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setPhoneNumber(dto.getPhoneNumber());
+        userRepository.save(user);
+        return new Result("User is successfully edited!", true);
+    }
+
+    public Result delete(Integer id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()) return new Result("This user is not found!",false);
+        boolean existsUserInUserWarehouse = userRepository.existsUserInUserWarehouse(id);
+        if(existsUserInUserWarehouse) return new Result("User is not deleted by relationship!",false);
+        userRepository.deleteById(id);
+        return new Result("User is successfully deleted!",true);
+    }
+
+
 }
 
